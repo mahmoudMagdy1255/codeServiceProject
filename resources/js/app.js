@@ -29,4 +29,9 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+    data:function () {
+    	return {
+    		message:'5555555555555555',
+    	};
+    }
 });
