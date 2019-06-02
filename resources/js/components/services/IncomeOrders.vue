@@ -1,0 +1,14 @@
+<template>
+	<div>
+		555555555555555555555555555555555555555555
+	</div>
+
+</template>
+
+<script type="text/javascript">
+	
+	export default{
+
+	}
+
+</script>

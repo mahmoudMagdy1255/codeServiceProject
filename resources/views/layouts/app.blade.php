@@ -16,7 +16,7 @@
 
 </head>
 <body>
-    <div id="app" style="direction: ltr;text-align: right">
+    <div id="app" style="direction: rtl;text-align: right">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
 
@@ -71,19 +71,19 @@
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                                     <li>
-                                        <a href="{{ route('logout') }}">
+                                        <router-link to="/income-orders">
                                             <i class="fa fa-truck"></i>
                                     الطلبات الواردة
-                                        </a>
+                                        </router-link>
                                     </li>
 
                                     <li>
 
-                                        <a href="{{ route('logout') }}">
+                                        <router-link to="/send-orders">
 
                                     <i class="fas fa-shopping-cart"></i>
                                     طلبات المشتريات
-                                        </a>
+                                        </router-link>
                                      </li>
 
                                 </ul>
@@ -99,20 +99,20 @@
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                      <li>
 
-                                        <a href="{{ route('logout') }}">
+                                        <router-link to="/add-services">
 
-                                    <i class="fas fa-plus"></i>
+                                            <i class="fas fa-plus"></i>
 اضافة خدمة
-                                        </a>
+                                        </router-link>
                                      </li>
 
                                      <li>
 
-                                        <a href="{{ route('logout') }}">
+                                        <router-link to="/my-services">
 
-                                    <i class="fas fa-users"></i>
+                                            <i class="fas fa-users"></i>
 خدماتى
-                                        </a>
+                                        </router-link>
                                      </li>
 
                                 </ul>

@@ -19,9 +19,10 @@ class CreateServicesTable extends Migration {
 			$table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 			$table->bigInteger('user_id')->unsigned();
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-			$table->string('image');
+			$table->string('image')->nullable();
 			$table->float('price');
-			$table->integer('views');
+			$table->integer('views')->nullable();
+			$table->tinyInteger('status')->default(0);
 			$table->timestamps();
 		});
 	}
