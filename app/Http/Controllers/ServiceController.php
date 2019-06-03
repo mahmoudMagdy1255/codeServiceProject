@@ -16,7 +16,7 @@ class ServiceController extends Controller {
 
 	public function myServices() {
 
-		$services = Auth::user()->services()->with('user')->withCount('user')->get();
+		$services = Auth::user()->services()->orderBy('id', 'desc')->with('user')->withCount('user')->get();
 
 		return response($services);
 
@@ -73,7 +73,7 @@ class ServiceController extends Controller {
 		$imageName = time() . '_' . Auth::getName() . '_' . $image->getClientOriginalName();
 
 		// resize image
-		$img->fit(300, 200);
+		$img->fit(800, 400);
 
 		$images_path = public_path() . '/images/services/';
 
@@ -92,7 +92,22 @@ class ServiceController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id) {
-		//
+
+		$service = Service::where('id', $id)->with('user')->first();
+
+		$myOtherService = Service::where('category_id', $service->category_id)->where('id', '!=', $service->id)->where('user_id', Auth::id())->with('user')->limit(6)->get();
+
+		$OtherService = Service::where('category_id', $service->category_id)->where('id', '!=', $service->id)->where('user_id', '!=', Auth::id())->with('user')->limit(6)->get();
+
+		$array = [
+			'service' => $service,
+			'myOtherService' => $myOtherService,
+			'OtherService' => $OtherService,
+
+		];
+
+		return $array;
+
 	}
 
 	/**

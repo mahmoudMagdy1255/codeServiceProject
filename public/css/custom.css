@@ -7,3 +7,7 @@
 .search{
 	margin-top: 10px;
 }
+
+.nav-tabs>li{
+	float: right;
+}

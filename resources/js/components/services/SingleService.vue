@@ -1,7 +1,7 @@
 <template>
 	
 	<div class="thumbnail" >
-					<router-link :to="{name:'ServiceDetails' , params:{id:service.id,name:service.name} }">
+					<router-link :to="{name:'ServiceDetails' , params:{id:service.id} }">
 
 						<h3 class="text-right">
 							{{ service.name }}

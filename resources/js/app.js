@@ -42,10 +42,9 @@ const router = new VueRouter({
 			name:'MyServices'
 		},
 		{
-			path:'/service-details/:id/:name',
+			path:'/service-details/:id',
 			component:ServiceDetails,
 			name:'ServiceDetails',
-			props:true
 		},
 		{
 			path:'/income-orders',
