@@ -18,6 +18,7 @@ Vue.use(VueRouter);
 
 import AddServices from './components/services/AddServices'
 import MyServices from './components/services/MyServices'
+import ServiceDetails from './components/services/ServiceDetails'
 import IncomeOrders from './components/orders/IncomeOrders'
 import SendOrders from './components/orders/SendOrders'
 
@@ -39,6 +40,12 @@ const router = new VueRouter({
 			path:'/my-services',
 			component:MyServices,
 			name:'MyServices'
+		},
+		{
+			path:'/service-details/:id/:name',
+			component:ServiceDetails,
+			name:'ServiceDetails',
+			props:true
 		},
 		{
 			path:'/income-orders',
