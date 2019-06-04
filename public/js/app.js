@@ -1961,11 +1961,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      services: []
+      services: [],
+      sortKey: ''
     };
   },
   components: {
@@ -1984,6 +1994,11 @@ __webpack_require__.r(__webpack_exports__);
         alert('Errooooor');
       });
     }
+  },
+  computed: {
+    ordersServices: function ordersServices() {
+      return _.orderBy(this.services, this.sortKey);
+    }
   }
 });
 
@@ -1998,6 +2013,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SingleService_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SingleService.vue */ "./resources/js/components/services/SingleService.vue");
 //
 //
 //
@@ -2094,11 +2110,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    singleService: _SingleService_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       service: {},
-      isLoading: false
+      isLoading: false,
+      myOtherService: {},
+      otherService: {}
     };
   },
   created: function created() {
@@ -2113,9 +2150,14 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/services/' + id).then(function (response) {
         console.log(response.data);
         _this.service = response.data.service;
+        _this.myOtherService = response.data.myOtherService;
+        _this.otherService = response.data.OtherService;
         _this.isLoading = true;
       }, function () {});
     }
+  },
+  watch: {
+    '$route': 'getServiceById'
   }
 });
 
@@ -2204,7 +2246,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['service'],
   filters: {
     limit: function limit(string) {
-      return string.substring(0, 40) + ' ....';
+      return string.substring(0, 20) + ' ....';
     }
   }
 });
@@ -38396,28 +38438,81 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("div", { staticClass: "alert alert-warning" }, [
-        _c("span", [
-          _vm._v(
-            "انت لديك  " + _vm._s(_vm.services.length) + " خدمات على الموقع"
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._l(_vm.services, function(service) {
+  return _c("div", [
+    _c("div", { staticClass: "alert alert-warning" }, [
+      _c("span", [
+        _vm._v("انت لديك  " + _vm._s(_vm.services.length) + " خدمات على الموقع")
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-info",
+        on: {
+          click: function($event) {
+            _vm.sortKey = "price"
+          }
+        }
+      },
+      [_vm._v("على حسب السعر")]
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-info",
+        on: {
+          click: function($event) {
+            _vm.sortKey = "status"
+          }
+        }
+      },
+      [_vm._v("فى انتظار الادارة")]
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-info",
+        on: {
+          click: function($event) {
+            _vm.sortKey = ""
+          }
+        }
+      },
+      [_vm._v("المضاف اخيرا")]
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-info",
+        on: {
+          click: function($event) {
+            _vm.sortKey = "name"
+          }
+        }
+      },
+      [_vm._v("على حسب الاسم")]
+    ),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "row" },
+      _vm._l(_vm.ordersServices, function(service) {
         return _c(
           "div",
           { staticClass: "col-sm-6 col-md-4", attrs: { "track-by": "$index" } },
           [_c("single-service", { attrs: { service: service } })],
           1
         )
-      })
-    ],
-    2
-  )
+      }),
+      0
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38503,7 +38598,79 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(3)
+            _c("div", { staticClass: "container-fluid" }, [
+              _c("div", { staticClass: "col-md-12 product-info" }, [
+                _vm._m(3),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "tab-content", attrs: { id: "myTabContent" } },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "tab-pane fade in active",
+                        attrs: { id: "service-one" }
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "row" },
+                          _vm._l(_vm.myOtherService, function(service) {
+                            return _c(
+                              "div",
+                              {
+                                staticClass: "col-sm-6 col-md-4",
+                                attrs: { "track-by": "$index" }
+                              },
+                              [
+                                _c("single-service", {
+                                  attrs: { service: service }
+                                })
+                              ],
+                              1
+                            )
+                          }),
+                          0
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "tab-pane fade",
+                        attrs: { id: "service-two" }
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "row" },
+                          _vm._l(_vm.otherService, function(service) {
+                            return _c(
+                              "div",
+                              {
+                                staticClass: "col-sm-6 col-md-4",
+                                attrs: { "track-by": "$index" }
+                              },
+                              [
+                                _c("single-service", {
+                                  attrs: { service: service }
+                                })
+                              ],
+                              1
+                            )
+                          }),
+                          0
+                        )
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("hr")
+              ])
+            ])
           ])
         ])
       ])
@@ -38554,53 +38721,27 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container-fluid" }, [
-      _c("div", { staticClass: "col-md-12 product-info" }, [
-        _c(
-          "ul",
-          {
-            staticClass: "nav nav-tabs nav_tabs",
-            staticStyle: { "padding-right": "0" },
-            attrs: { id: "myTab" }
-          },
-          [
-            _c("li", { staticClass: "active" }, [
-              _c(
-                "a",
-                { attrs: { href: "#service-one", "data-toggle": "tab" } },
-                [_vm._v("خدماتى فى نفس القسم")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c(
-                "a",
-                { attrs: { href: "#service-two", "data-toggle": "tab" } },
-                [_vm._v("خدمات اعضاء فى نفس القسم")]
-              )
-            ])
-          ]
-        ),
+    return _c(
+      "ul",
+      {
+        staticClass: "nav nav-tabs nav_tabs",
+        staticStyle: { "padding-right": "0" },
+        attrs: { id: "myTab" }
+      },
+      [
+        _c("li", { staticClass: "active" }, [
+          _c("a", { attrs: { href: "#service-one", "data-toggle": "tab" } }, [
+            _vm._v("خدماتى فى نفس القسم")
+          ])
+        ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "tab-content", attrs: { id: "myTabContent" } },
-          [
-            _c("div", {
-              staticClass: "tab-pane fade in active",
-              attrs: { id: "service-one" }
-            }),
-            _vm._v(" "),
-            _c("div", {
-              staticClass: "tab-pane fade",
-              attrs: { id: "service-two" }
-            })
-          ]
-        ),
-        _vm._v(" "),
-        _c("hr")
-      ])
-    ])
+        _c("li", [
+          _c("a", { attrs: { href: "#service-two", "data-toggle": "tab" } }, [
+            _vm._v("خدمات اعضاء فى نفس القسم")
+          ])
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -38626,7 +38767,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "thumbnail" },
+    { staticClass: "thumbnail", staticStyle: { width: "100%" } },
     [
       _c(
         "router-link",

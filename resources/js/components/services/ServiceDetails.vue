@@ -63,13 +63,28 @@
 						</ul>
 					<div id="myTabContent" class="tab-content">
 							<div class="tab-pane fade in active" id="service-one">
-							 
+							 	
+							 	<div class="row">
+
+								 	<div v-for="service in myOtherService" track-by="$index" class="col-sm-6 col-md-4">
+									
+										<single-service :service="service"></single-service>
+
+									</div>
+								</div>
 											  
 							</div>
 							
 							<div class="tab-pane fade" id="service-two">
-							
 
+								<div class="row">
+
+									<div v-for="service in otherService" track-by="$index" class="col-sm-6 col-md-4">
+									
+										<single-service :service="service"></single-service>
+
+									</div>
+								</div>
 							</div>
 						
 
@@ -96,13 +111,22 @@
 
 <script type="text/javascript">
 	
+	import singleService from './SingleService.vue'
+
+
 	export default{
+
+		components:{
+			singleService
+		},
 
 		data(){
 			return {
 
 				service:{},
 				isLoading:false,
+				myOtherService:{},
+				otherService:{},
 
 			};
 
@@ -121,6 +145,8 @@
 
 					console.log(response.data);
 					this.service = response.data.service;
+					this.myOtherService = response.data.myOtherService;
+					this.otherService = response.data.OtherService;
 					this.isLoading = true;
 
 				}, ()=>{
@@ -128,7 +154,13 @@
 				});
 
 			}
-		}
+		},
+
+		watch:{
+
+			'$route': 'getServiceById'
+
+	    }
 	}
 
 </script>

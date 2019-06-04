@@ -45,6 +45,7 @@ const router = new VueRouter({
 			path:'/service-details/:id',
 			component:ServiceDetails,
 			name:'ServiceDetails',
+
 		},
 		{
 			path:'/income-orders',

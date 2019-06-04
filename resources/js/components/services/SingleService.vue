@@ -1,6 +1,6 @@
 <template>
 	
-	<div class="thumbnail" >
+	<div class="thumbnail" style="width:100%;">
 					<router-link :to="{name:'ServiceDetails' , params:{id:service.id} }">
 
 						<h3 class="text-right">
@@ -77,7 +77,7 @@
 
 			limit(string){
 
-				return string.substring(0, 40) + ' ....';
+				return string.substring(0, 20) + ' ....';
 
 			}
 
