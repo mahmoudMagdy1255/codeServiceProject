@@ -1,25 +1,21 @@
 <template>
-		<div>
-
-			<span v-if="isLoading">
-
+	<div>
+		
+		<span v-if="isLoading">
+			
 			<span class="pull-right">										
 				<i class="far fa-user"></i>
 				الخدمات الخاصة بالعضو {{ user.name }}
 			</span>
 			
-			<span class="pull-left">										
-				<i class="far fa-clock"></i>
-				{{ user.created_at }}
-			</span>
-
 			<div class="clearfix"></div>
 
 			<div class="alert alert-warning">
 				
-				<span>انت لديك  {{ services.length }} خدمات على الموقع</span>
+				<span>{{ user.name }} لديه  {{ services.length }} خدمات على الموقع</span>
 
 			</div>
+
 
 			<div class="row">
 				<div class="pull-right col-lg-6">
@@ -62,21 +58,25 @@
 				<span v-else>
 					<div class="alert alert-warning">
 						
-						ليس لديك اى خدمات حتى الان
-
-						<router-link to="/add-services">
-
-                            <i class="fas fa-plus"></i>
-							اضافة خدمة
-                        </router-link>
+						
+						<span>
+							<div class="text-center">
+								<b>	
+									العضو {{ user.name }} ليس لديه اى خدمات 	
+								</b>
+							</div>
+						</span>
 
 					</div>
 				</span>
 
 			</div>
-			</span>
 
-			<span v-else>
+
+		</span>
+
+
+		<span v-else>
 			<div class="text-center">
 				<b>	
 					جارى التحميل	
@@ -84,57 +84,51 @@
 			</div>
 		</span>
 
-		</div>
+	</div>
 
 </template>
 
+
 <script type="text/javascript">
-	
-	import singleService from './SingleService.vue'
+
+		import singleService from './SingleService.vue'
 
 	export default{
-
 		data(){
 
 			return{
-
+				isLoading:false,
 				services:{},
 				sortKey:'',
 				reverse:1,
 				user:{},
-				service_name:'',
-				isLoading:false
+				service_name:''
 
 			}
 
 		},
-		components:{
+		created(){
+			this.getUserServices();
+		},components:{
 			singleService
 		},
-		created(){
-			this.getMyServices();
-		},
 		methods:{
+			getUserServices(){
 
-			getMyServices(){
-				
-				this.isLoading = false;
-
-				axios.get('/services/my-services').then( (response)=>{
-
-					this.services = response.data;
-
-					this.user = this.services[0].user;
+				axios.get('services/user-services/' + this.$route.params.id).then((response)=>{
 
 					this.isLoading = true;
 
-				}, ()=>{
+					this.services = response.data[0];
+
+					this.user = response.data[1];
+
+				}, (error)=>{
 					
-					alert('Errooooor');
-
+					this.isLoading = false;
 				});
-			},
 
+			},
 			ordersServices(sortKey){
 
 

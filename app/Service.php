@@ -22,4 +22,8 @@ class Service extends Model {
 		return $this->hasMany(Vote::class, 'service_id');
 	}
 
+	public function views() {
+		return $this->hasMany(View::class, 'service_id');
+	}
+
 }

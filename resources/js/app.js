@@ -21,15 +21,16 @@ import MyServices from './components/services/MyServices'
 import ServiceDetails from './components/services/ServiceDetails'
 import IncomeOrders from './components/orders/IncomeOrders'
 import SendOrders from './components/orders/SendOrders'
+import User from './components/users/userServices'
 
 const router = new VueRouter({
 
 	routes:[
 
 		{
-			path:'/home',
-			component:AddServices,
-			name:'home'
+			path:'/user/:id',
+			component:User,
+			name:'User'
 		},
 		{
 			path:'/add-services',

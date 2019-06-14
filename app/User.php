@@ -39,6 +39,10 @@ class User extends Authenticatable {
 		return $this->hasMany(Service::class, 'user_id');
 	}
 
+	public function Activeservices() {
+		return $this->hasMany(Service::class, 'user_id')->where('status', '1');
+	}
+
 	public function orders() {
 		return $this->hasMany(Order::class, 'user_order');
 	}
@@ -48,19 +52,19 @@ class User extends Authenticatable {
 	}
 
 	public function getMessageIAdd() {
-		return $this->hasMany(Order::class, 'user_message_you');
+		return $this->hasMany(Message::class, 'user_message_you');
 	}
 
 	public function messages() {
-		return $this->hasMany(Order::class, 'user_id');
+		return $this->hasMany(Message::class, 'user_id');
 	}
 
 	public function getNotificationsISend() {
-		return $this->hasMany(Order::class, 'user_notify_you');
+		return $this->hasMany(Notification::class, 'user_notify_you');
 	}
 
 	public function notifications() {
-		return $this->hasMany(Order::class, 'user_id');
+		return $this->hasMany(Notification::class, 'user_id');
 	}
 
 	public function votes() {

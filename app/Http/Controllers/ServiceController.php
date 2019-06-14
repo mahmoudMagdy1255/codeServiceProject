@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddServicesRequest;
 use App\Service;
+use App\User;
+use App\View;
 use Auth;
 use Image;
 
@@ -16,9 +18,19 @@ class ServiceController extends Controller {
 
 	public function myServices() {
 
-		$services = Auth::user()->services()->orderBy('id', 'desc')->with('user')->withCount('user')->get();
+		$services = Auth::user()->services()->orderBy('id', 'desc')->withCount('views')->with('user')->withCount('user')->get();
 
 		return response($services);
+
+	}
+
+	public function userServices($id) {
+
+		$user = User::findOrFail($id);
+
+		$services = $user->Activeservices()->orderBy('id', 'desc')->withCount('views')->with('user')->withCount('user')->get();
+
+		return response([$services, $user]);
 
 	}
 
@@ -93,11 +105,34 @@ class ServiceController extends Controller {
 	 */
 	public function show($id) {
 
+		$ip = $_SERVER['REMOTE_ADDR'];
+
+		if (!View::where('service_id', $id)->where('ip', $ip)->exists()) {
+
+			$view = new View;
+
+			$view->service_id = $id;
+
+			$view->user_id = Auth::user() ? Auth::id() : 0;
+
+			$view->ip = $ip;
+
+			$view->save();
+
+		}
+
 		$service = Service::where('id', $id)->with('user')->first();
 
-		$myOtherService = Service::where('category_id', $service->category_id)->where('id', '!=', $service->id)->where('user_id', Auth::id())->with('user')->limit(6)->get();
+		if ($service->status != 1) {
+			if (Auth::guest() || Auth::id() != $service->user_id) {
+				abort(403, 'انتعيل خنزير ابن وسخة');
+			}
 
-		$OtherService = Service::where('category_id', $service->category_id)->where('id', '!=', $service->id)->where('user_id', '!=', Auth::id())->with('user')->limit(6)->get();
+		}
+
+		$myOtherService = Service::where('category_id', $service->category_id)->withCount('views')->where('id', '!=', $service->id)->where('user_id', Auth::id())->with('user')->limit(6)->get();
+
+		$OtherService = Service::where('status', '1')->where('category_id', $service->category_id)->where('id', '!=', $service->id)->where('user_id', '!=', Auth::id())->withCount('views')->with('user')->limit(6)->get();
 
 		$array = [
 			'service' => $service,

@@ -1,11 +1,17 @@
 <template>
 	
+	<span>
+
 	<div v-if="isLoading">
 	
-		<div class="col-lg-4 col-md-4"></div>
+		<div class="col-lg-3 col-md-3">
+			
+			<side-bar :service="service"></side-bar>
+
+		</div>
 
 
-		<div class="col-lg-8 col-md-8">
+		<div class="col-lg-9 col-md-9">
 		
 
 			<div class="content-wrapper">	
@@ -40,15 +46,14 @@
 						<div class="product-price">$ {{ service.price }}</div>
 						<div class="product-stock">عدد مرات الشراء</div>
 						<hr>
-						<div class="btn-group cart">
-							<button type="button" class="btn btn-success">
-								طلب هذه الخدمة 
-							</button>
-						</div>
-						<div class="btn-group wishlist">
+						<div>
+
+							<button-buy service_id="service.id"></button-buy>
+
 							<button type="button" class="btn btn-danger">
 								اضف الى المفضلة 
 							</button>
+
 						</div>
 					</div>
 				</div> 
@@ -66,7 +71,7 @@
 							 	
 							 	<div class="row">
 
-								 	<div v-for="service in myOtherService" track-by="$index" class="col-sm-6 col-md-4">
+								 	<div v-for="service in myOtherService" track-by="$index" class="col-sm-6 col-md-4 pull-right">
 									
 										<single-service :service="service"></single-service>
 
@@ -79,9 +84,9 @@
 
 								<div class="row">
 
-									<div v-for="service in otherService" track-by="$index" class="col-sm-6 col-md-4">
+									<div v-for="service in otherService" track-by="$index" class="col-sm-6 col-md-4 pull-right">
 									
-										<single-service :service="service"></single-service>
+										<user-single-service :service="service"></user-single-service>
 
 									</div>
 								</div>
@@ -102,7 +107,14 @@
 
 	</div>
 
-
+	<span v-else>
+				<div class="text-center">
+					<b>	
+						جارى التحميل	
+					</b>
+				</div>
+			</span>
+		</span>
 
 
 
@@ -111,13 +123,25 @@
 
 <script type="text/javascript">
 	
+	var spinner = require('vue-strap').spinner;
+
 	import singleService from './SingleService.vue'
+
+	import userSingleService from '../users/SingleService.vue'
+
+	import buttonBuy from '../buttons/ButtonBuy.vue'
+
+	import sideBar from './Sidebar.vue'
 
 
 	export default{
 
 		components:{
-			singleService
+			singleService,
+			userSingleService,
+			sideBar,
+			buttonBuy,
+			spinner
 		},
 
 		data(){
@@ -142,15 +166,14 @@
 				this.isLoading = false;
 
 				axios.get('/services/' + id).then( (response)=>{
-
-					console.log(response.data);
+					
 					this.service = response.data.service;
 					this.myOtherService = response.data.myOtherService;
 					this.otherService = response.data.OtherService;
 					this.isLoading = true;
-
+					
 				}, ()=>{
-
+					this.$router.push('/');
 				});
 
 			}

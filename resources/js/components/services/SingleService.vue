@@ -20,17 +20,27 @@
 							</div>
 
 							<div class="col-md-6 col-xs-6">
-								<h3>{{ service.user.name }}</h3>
+								<h3>
+									<router-link :to="{name:'User' , params:{id:service.user.id}}">
+										{{ service.user.name }}
+									</router-link>
+								
+								</h3>
 							</div>
 							
 						</div>
 						<p>{{ service.desc | limit }}</p>
-						<div class="row">
-							<div class="col-md-6 text-left">
+
+						<p>
+							<i class="fa fa-eye"> </i>
+							{{ service.views_count }}
+						</p>
+
+							<div class="text-left">
 
 								<span v-if="service.status == 0">
 									
-									<span class="btn btn-warning btn-product">
+									<span class="col-md-12 btn btn-warning btn-product">
 										<i class="far fa-clock"></i>
 										 فى انتظار  الادارة
 									</span> 
@@ -39,7 +49,7 @@
 
 								<span v-if="service.status == 2">
 									
-									<span class="btn btn-danger btn-product">
+									<span class="col-md-12 btn btn-danger btn-product">
 										<i class="fa fa-window-close"></i>
 										 تم الرفض من الادارة
 									</span> 
@@ -48,20 +58,19 @@
 
 								<span v-if="service.status == 1">
 									
-									<span class="btn btn-success btn-product">
+									<span class="col-md-12 btn btn-success btn-product">
 										<i class="fas fa-check"></i>
 										 تم الموافقة على الخدمة
 									</span> 
 
 								</span>
 
-								
+							<div class="clearfix">
+
 							</div>
-							<div class="col-md-6">
-								<a href="#" class="btn btn-success btn-product"><span class="glyphicon glyphicon-shopping-cart"></span> Buy</a></div>
+							
 						</div>
 
-						<p> </p>
 					</div>
 				</div>
 
@@ -73,6 +82,9 @@
 	export default{
 
 		props:['service'],
+		created(){
+			console.log(this.service);
+		},
 		filters:{
 
 			limit(string){
