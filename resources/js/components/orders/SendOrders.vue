@@ -39,6 +39,7 @@
 							<button class="btn btn-info" @click="ordersFilter('4')">منتهى</button>
 							<button class="btn btn-info" @click="ordersFilter('3')">ملغى</button>
 							<button class="btn btn-info" @click="ordersFilter('2')">قيد التنفيذ</button>
+							<button class="btn btn-info" @click="ordersFilter('')">كل الطلبات</button>
 
 						</div>
 
@@ -116,9 +117,8 @@
 				isLoaded:false,
 				orders:{},
 				user:{},
-				sortKey:'0',
+				filterKey:'',
 				reverse:1,
-				order_search:''
 			};
 		},
 		created(){
@@ -144,11 +144,11 @@
 				});
 			},
 
-			ordersFilter(sortKey){
+			ordersFilter(filterKey){
 
 
 
-				if ( this.sortKey == sortKey) {
+				if ( this.filterKey == filterKey) {
 
 					this.reverse = -1 * this.reverse;
 
@@ -157,16 +157,12 @@
 					this.reverse = 1;					
 				}
 
-				this.sortKey = sortKey;
+				this.filterKey = filterKey;
 
 
 				if ( this.reverse == -1 ) {
 
-					this.orders = _.orderBy(this.orders , this.sortKey).reverse();
-
-				}else {
-
-					this.orders = _.orderBy(this.orders , this.sortKey);
+					this.orders = _.orderBy(this.orders, 'status').reverse();
 
 				}
 			}
@@ -176,17 +172,13 @@
 			filterOrders() {
 
 
-				if ( this.orders.length > 0 && this.order_search) {
-
+				if (this.filterKey) {
 
 					return this.orders.filter((order)=>{
 
-						var word = this.order_search;
+						return order.status == this.filterKey;
 
-						return order.type.includes(word) ||order.desc.includes(word)|| order.price ==word;
-
-					});
-
+					});					
 				}
 
 				return this.orders;

@@ -1965,6 +1965,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var alert = __webpack_require__(/*! vue-strap */ "./node_modules/vue-strap/dist/vue-strap.js").alert;
 
 
@@ -1978,9 +1979,8 @@ var alert = __webpack_require__(/*! vue-strap */ "./node_modules/vue-strap/dist/
       isLoaded: false,
       orders: {},
       user: {},
-      sortKey: '0',
-      reverse: 1,
-      order_search: ''
+      filterKey: '',
+      reverse: 1
     };
   },
   created: function created() {
@@ -2000,19 +2000,17 @@ var alert = __webpack_require__(/*! vue-strap */ "./node_modules/vue-strap/dist/
         alert('Errooooor');
       });
     },
-    ordersFilter: function ordersFilter(sortKey) {
-      if (this.sortKey == sortKey) {
+    ordersFilter: function ordersFilter(filterKey) {
+      if (this.filterKey == filterKey) {
         this.reverse = -1 * this.reverse;
       } else {
         this.reverse = 1;
       }
 
-      this.sortKey = sortKey;
+      this.filterKey = filterKey;
 
       if (this.reverse == -1) {
-        this.orders = _.orderBy(this.orders, this.sortKey).reverse();
-      } else {
-        this.orders = _.orderBy(this.orders, this.sortKey);
+        this.orders = _.orderBy(this.orders, 'status').reverse();
       }
     }
   },
@@ -2020,10 +2018,9 @@ var alert = __webpack_require__(/*! vue-strap */ "./node_modules/vue-strap/dist/
     filterOrders: function filterOrders() {
       var _this2 = this;
 
-      if (this.orders.length > 0 && this.order_search) {
+      if (this.filterKey) {
         return this.orders.filter(function (order) {
-          var word = _this2.order_search;
-          return order.type.includes(word) || order.desc.includes(word) || order.price == word;
+          return order.status == _this2.filterKey;
         });
       }
 
@@ -39159,6 +39156,19 @@ var render = function() {
                   }
                 },
                 [_vm._v("قيد التنفيذ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-info",
+                  on: {
+                    click: function($event) {
+                      return _vm.ordersFilter("")
+                    }
+                  }
+                },
+                [_vm._v("كل الطلبات")]
               )
             ])
           ]),
