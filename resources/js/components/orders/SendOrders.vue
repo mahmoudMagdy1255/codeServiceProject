@@ -29,6 +29,7 @@
 
 				<div class="clearfix"></div>
 
+				<div class="row">
 					<div class="pull-right col-lg-6">
 
 						<div class="btn-group">
@@ -45,7 +46,14 @@
 
 					</div>
 
-			
+					<div class="btn-group pull-right col-lg-4 text-left">
+
+						<input type="text" v-model="order_name" placeholder="ابحث عن خدمة" class="form-control">
+					
+					</div>
+
+				</div>
+
 				<div class="clearfix"></div>
 
 				<br>				
@@ -70,7 +78,7 @@
 				<div  v-if="orders.length > 0">
 						<div v-for="order in filterOrders">
 							
-							<orders :order="order"></orders>
+							<orders :user="order.get_user_add_service" :order="order"></orders>
 							<hr>								
 
 						</div>
@@ -100,7 +108,6 @@
 
 <script type="text/javascript">
 	
-
 	var alert = require('vue-strap').alert;
 
 
@@ -119,6 +126,7 @@
 				user:{},
 				filterKey:'',
 				reverse:1,
+				order_name:'',
 			};
 		},
 		created(){
@@ -150,12 +158,13 @@
 
 				if ( this.filterKey == filterKey) {
 
-					this.reverse = -1 * this.reverse;
+					this.reverse = -1;
 
 				}else {
 
 					this.reverse = 1;					
 				}
+
 
 				this.filterKey = filterKey;
 
@@ -171,15 +180,44 @@
 		computed:{
 			filterOrders() {
 
+				let orders = [];
 
+				if (this.order_name) {
+
+					let word = this.order_name;
+						
+					orders = this.orders.filter((order)=>{
+						return order.services.name.includes(word) || order.services.price ==word;
+
+					});
+
+				}
+
+				
 				if (this.filterKey) {
+
+					if (orders.length > 0) {
+
+						return orders.filter((order)=>{
+
+							return order.status == this.filterKey;
+
+						});	
+
+					}
 
 					return this.orders.filter((order)=>{
 
 						return order.status == this.filterKey;
 
-					});					
+					});	
+
 				}
+
+				if (this.order_name) {
+					return orders;
+				}
+
 
 				return this.orders;
 			},

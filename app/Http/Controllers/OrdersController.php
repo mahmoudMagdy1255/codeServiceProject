@@ -26,6 +26,19 @@ class OrdersController extends Controller {
 
 	}
 
+	public function myIncomeOrders() {
+
+		$user = Auth::user();
+
+		$orders = $user->getMyServiceOrders()->with('services', 'user')->orderBy('id', 'DESC')->get();
+
+		return [
+			'orders' => $orders,
+			'user' => $user,
+		];
+
+	}
+
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -85,7 +98,23 @@ class OrdersController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id) {
-		//
+
+		$order = Order::findOrFail($id);
+
+		if (Auth::check() and $order->user_order == Auth::id()) {
+
+			return [
+
+				'user_order' => $order->user->with('services')->limit(3)->first(),
+				'user' => $order->getUserAddService,
+				'order' => Order::find($id)->with('services')->limit(3)->first(),
+
+			];
+
+		}
+
+		abort(403);
+
 	}
 
 	/**

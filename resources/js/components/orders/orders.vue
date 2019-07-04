@@ -52,11 +52,17 @@
 
 			<div class="col-lg-2">{{ order.created_at }}</div>
 			<div class="col-lg-2">
-				<router-link :to="{name:'User' , params:{id:order.get_user_add_service.id}}">
-					{{ order.get_user_add_service.name }}
+				<router-link :to="{name:'User' , params:{id:user.id}}">
+					{{ user.name }}
 				</router-link>
 			</div>
-			<div class="col-lg-5"><b> {{ order.services.name }}</b></div>
+			<div class="col-lg-5">
+				<b> 
+					<router-link :to="{name:'Order' , params:{id:order.id}}">
+						{{ order.services.name }}
+					</router-link>
+				</b>
+			</div>
 			<div class="col-lg-1">{{ order.id }}</div>
 		</div>
 
@@ -65,7 +71,7 @@
 <script type="text/javascript">
 	
 	export default{
-		props:['order']
+		props:['order' , 'user'],
 	}
 
 </script>

@@ -22,6 +22,7 @@ import ServiceDetails from './components/services/ServiceDetails'
 import IncomeOrders from './components/orders/IncomeOrders'
 import SendOrders from './components/orders/SendOrders'
 import User from './components/users/userServices'
+import Order from './components/orders/OrderDetails'
 
 const router = new VueRouter({
 
@@ -31,6 +32,11 @@ const router = new VueRouter({
 			path:'/user/:id',
 			component:User,
 			name:'User'
+		},
+		{
+			path:'/order/:id',
+			component:Order,
+			name:'Order'
 		},
 		{
 			path:'/add-services',

@@ -24,5 +24,6 @@ Route::get('/services/user-services/{id}', 'ServiceController@userServices');
 Route::resource('services', 'ServiceController');
 
 Route::get('/orders/get-my-send-orders', 'OrdersController@mySendOrders');
+Route::get('/orders/get-my-income-orders', 'OrdersController@myIncomeOrders');
 
 Route::resource('orders', 'OrdersController');
